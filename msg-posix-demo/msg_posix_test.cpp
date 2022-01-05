@@ -215,7 +215,7 @@ int main( int t_narg, char **t_args )
 
         mq_attr l_mqa;
         bzero( &l_mqa, sizeof( l_mqa ) );
-        l_mqa.mq_flags =
+        l_mqa.mq_flags = 0;
         l_mqa.mq_maxmsg = 8;
         l_mqa.mq_msgsize = sizeof( int );
 
