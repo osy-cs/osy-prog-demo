@@ -19,4 +19,6 @@ int module_1()
 {
   // Self identification: file, fuction name and line number
   printf( "File: %s Function: %s Line: %d\n", __FILE__, __FUNCTION__, __LINE__ );
+
+  return 0;
 }

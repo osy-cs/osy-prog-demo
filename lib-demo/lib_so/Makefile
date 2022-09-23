@@ -28,7 +28,7 @@ clean:
 
 # creating dynamic library 
 $(LIBFILE): module_1.o module_2.o
-	@echo "\nCreating static library...\n"
+	@echo "\nCreating dynamic library...\n"
 	g++ $(CPPFLAGS) $^ -shared $(LDFLAGS) -o $@
 	@echo "\nDynamic library created: '$(LIBFILE)'.\n"
 
