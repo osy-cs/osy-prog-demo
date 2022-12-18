@@ -214,9 +214,9 @@ int main( int t_narg, char **t_args )
                 l_sock_client = accept( l_sock_listen, ( sockaddr * ) &l_rsa, ( socklen_t * ) &l_rsa_size );
                 if ( l_sock_client == -1 )
                 {
-                        log_msg( LOG_ERROR, "Unable to accept new client." );
-                        close( l_sock_listen );
-                        exit( 1 );
+                    log_msg( LOG_ERROR, "Unable to accept new client." );
+                    close( l_sock_listen );
+                    exit( 1 );
                 }
                 uint l_lsa = sizeof( l_srv_addr );
                 // my IP
@@ -255,16 +255,16 @@ int main( int t_narg, char **t_args )
                 // read data from stdin
                 int l_len = read( STDIN_FILENO, l_buf, sizeof( l_buf ) );
                 if ( l_len < 0 )
-                        log_msg( LOG_ERROR, "Unable to read data from stdin." );
+                    log_msg( LOG_ERROR, "Unable to read data from stdin." );
                 else
-                        log_msg( LOG_DEBUG, "Read %d bytes from stdin.", l_len );
+                    log_msg( LOG_DEBUG, "Read %d bytes from stdin.", l_len );
 
                 // send data to client
                 l_len = write( l_sock_client, l_buf, l_len );
                 if ( l_len < 0 )
-                        log_msg( LOG_ERROR, "Unable to send data to client." );
+                    log_msg( LOG_ERROR, "Unable to send data to client." );
                 else
-                        log_msg( LOG_DEBUG, "Sent %d bytes to client.", l_len );
+                    log_msg( LOG_DEBUG, "Sent %d bytes to client.", l_len );
             }
             // data from client?
             if ( l_read_poll[ 1 ].revents & POLLIN )
@@ -273,27 +273,31 @@ int main( int t_narg, char **t_args )
                 int l_len = read( l_sock_client, l_buf, sizeof( l_buf ) );
                 if ( !l_len )
                 {
-                        log_msg( LOG_DEBUG, "Client closed socket!" );
-                        close( l_sock_client );
-                        break;
+                    log_msg( LOG_DEBUG, "Client closed socket!" );
+                    close( l_sock_client );
+                    break;
                 }
                 else if ( l_len < 0 )
-                        log_msg( LOG_DEBUG, "Unable to read data from client." );
+                {
+                    log_msg( LOG_ERROR, "Unable to read data from client." );
+                    close( l_sock_client );
+                    break;
+                }
                 else
-                        log_msg( LOG_DEBUG, "Read %d bytes from client.", l_len );
+                    log_msg( LOG_DEBUG, "Read %d bytes from client.", l_len );
 
                 // write data to client
                 l_len = write( STDOUT_FILENO, l_buf, l_len );
                 if ( l_len < 0 )
-                        log_msg( LOG_ERROR, "Unable to write data to stdout." );
+                    log_msg( LOG_ERROR, "Unable to write data to stdout." );
 
                 // close request?
                 if ( !strncasecmp( l_buf, "close", strlen( STR_CLOSE ) ) )
                 {
-                        log_msg( LOG_INFO, "Client sent 'close' request to close connection." );
-                        close( l_sock_client );
-                        log_msg( LOG_INFO, "Connection closed. Waiting for new client." );
-                        break;
+                    log_msg( LOG_INFO, "Client sent 'close' request to close connection." );
+                    close( l_sock_client );
+                    log_msg( LOG_INFO, "Connection closed. Waiting for new client." );
+                    break;
                 }
             }
             // request for quit

@@ -218,7 +218,10 @@ int main( int t_narg, char **t_args )
                 break;
             }
             else if ( l_len < 0 )
-                log_msg( LOG_DEBUG, "Unable to read data from server." );
+            {
+                log_msg( LOG_ERROR, "Unable to read data from server." );
+                break;
+            }
             else
                 log_msg( LOG_DEBUG, "Read %d bytes from server.", l_len );
 
