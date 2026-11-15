@@ -172,7 +172,7 @@ void clean()
     log_msg( LOG_INFO, "Closing all connections." );
     for ( int inx = 1; inx < MAXFD; inx++ )
     {
-        if ( g_aio_cbs[ inx ].aio_fildes == -1 )
+        if ( g_aio_cbs[ inx ].aio_fildes != -1 )
         {
             close( g_aio_cbs[ inx ].aio_fildes );
         }
